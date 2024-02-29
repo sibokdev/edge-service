@@ -16,10 +16,22 @@ spring:
           uri: ${CATALOG_SERVICE_URL:http://localhost:9001}/books
           predicates:
             - Path=/books/** #The predicate is a path to match
+          #adding filters to register circuit breaker
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: catalogCircuitBreaker
+                fallbackUri: forward:/catalog-fallback
         - id: order-route
           uri: ${ORDER_SERVICE_URL:http://localhost:9002}/orders #The URI value comes from an environment variable, or else from the default
           predicates:
             - Path=/orders/**
+          #adding filters to register circuit breaker
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: orderCircuitBreaker
+                # no fall back defined fothis circuit breaker
       # declaring filters
       default-filters: # list of default filters
         - name: Retry #name of the filter
