@@ -1,0 +1,22 @@
+server:
+  port: 9000
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s
+  shutdown: graceful
+spring:
+  application:
+    name: edge-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+  cloud:
+    gateway:
+      routes: #A list of route definitions
+        - id: catalog-route #The route ID
+          uri: ${CATALOG_SERVICE_URL:http://localhost:9001}/books
+          predicates:
+            - Path=/books/** #The predicate is a path to match
+        - id: order-route
+          uri: ${ORDER_SERVICE_URL:http://localhost:9002}/orders #The URI value comes from an environment variable, or else from the default
+          predicates:
+            - Path=/orders/**
