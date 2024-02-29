@@ -20,3 +20,13 @@ spring:
           uri: ${ORDER_SERVICE_URL:http://localhost:9002}/orders #The URI value comes from an environment variable, or else from the default
           predicates:
             - Path=/orders/**
+      ## below lines are the config for timeouts on gateway
+      httpclient: # Configuration properties for the HTTP client
+        connect-timeout: 2000 #Time limit for a connection to be established (in ms)
+        response-timeout: 5s #Time limit for a response to be received (Duration)
+        #configuring coneection pool
+        pool:
+          type: elastic #Type of connection pool (elastic, fixed, or disabled)
+          max-idle-time: 15s # Idle time after which the communication channel will be closed
+          max-life-time: 60s # Time after which the communication channel will be closed
+
