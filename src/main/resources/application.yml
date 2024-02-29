@@ -20,6 +20,19 @@ spring:
           uri: ${ORDER_SERVICE_URL:http://localhost:9002}/orders #The URI value comes from an environment variable, or else from the default
           predicates:
             - Path=/orders/**
+      # declaring filters
+      default-filters: # list of default filters
+        - name: Retry #name of the filter
+          args:
+            retries: 3 #maximun retry attempts
+            methods: GET # retries only get requests
+            series: SERVER_ERROR # retries only when 5xx errors
+            exceptions: java.io.IOException, java.util.concurrent.TimeoutException # retry only when given exceptions are thrown
+            backoff: # Retries with a delay computed as “firstBackoff * (factor ^ n)”
+              firstBackoff: 50ms
+              maxBackOff: 500ms
+              factor: 2
+              basedOnPreviousValue: false
       ## below lines are the config for timeouts on gateway
       httpclient: # Configuration properties for the HTTP client
         connect-timeout: 2000 #Time limit for a connection to be established (in ms)
