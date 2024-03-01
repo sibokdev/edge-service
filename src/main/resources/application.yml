@@ -67,3 +67,11 @@ resilience4j:
     configs:
       default: # Default configuration bean for all time limiters
         timeoutDuration: 5s # Default configuration bean for all time limiters
+logging:
+  level:
+    io.github.resilience4j: DEBUG
+  redis:
+    connect-timeout: 2s
+    host: localhost
+    port: 6379
+    timeout: 1s
