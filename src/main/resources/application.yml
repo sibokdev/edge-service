@@ -39,6 +39,7 @@ spring:
                 # no fall back defined fothis circuit breaker
       # declaring filters
       default-filters: # list of default filters
+        - SaveSession
         - name: Retry #name of the filter
           args:
             retries: 3 #maximun retry attempts
