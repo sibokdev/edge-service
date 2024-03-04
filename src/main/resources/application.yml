@@ -45,6 +45,12 @@ spring:
               maxBackOff: 500ms
               factor: 2
               basedOnPreviousValue: false
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter:
+              replenishRate: 10
+              burstCapacity: 20
+              requestedTokens: 1
       ## below lines are the config for timeouts on gateway
       httpclient: # Configuration properties for the HTTP client
         connect-timeout: 2000 #Time limit for a connection to be established (in ms)
